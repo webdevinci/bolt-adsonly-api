@@ -1,0 +1,104 @@
+{
+    "settings": {
+        "autoplay": true,
+        "automute": true,
+        "iosAutoplayInline": true,
+        "playerType": "precontent",
+        "appearance": {
+            "preloader": {
+                "background": "rgb(6,112,171)",
+                "loaderType": "rotating-plane",
+                "loaderColor": "rgb(255,255,255)",
+                "showLogo": true,
+                "logo": "//cdn.video.playwire.com/1006036/watermarks/playwiresupport_white-300x98.png"
+            }
+        }
+    },
+    "id": 1010786,
+    "type": "publisher",
+    "version": 3,
+    "publisherCategory": "Games Casual",
+    "publisherCategories": [
+        "Games Casual"
+    ],
+    "content": {
+        "media": {
+            "240": {
+                "video/webm": "//fake.video.url.webm",
+                "video/mp4": "//fake.video.url.mp4"
+            }
+        }
+    },
+    "advertising": {
+        "videoAdRatio": 1,
+        "on": true,
+        "prefetch": false,
+        "useIMAForVPAID": false,
+        "servers": [
+            {
+                "type": "spotx-playwire",
+                "tags": {
+                    "default": {
+                        "placementIds": [
+                            "p1",
+                            "p3"
+                        ],
+                        "standard": {
+                            "channelId": 227363,
+                            "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                            "midroll": null
+                        },
+                        "html5": {
+                            "desktop": {
+                                "channelId": 227363,
+                                "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                                "midroll": null
+                            },
+                            "mobile": {
+                                "channelId": 227363,
+                                "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                                "midroll": null
+                            }
+                        }
+                    },
+                    "local.gamezone.com": {
+                        "coppa": false,
+                        "trueView": true,
+                        "dmp": true,
+                        "category": "games_casual",
+                        "categories": [
+                            "games_casual"
+                        ],
+                        "keywords": [
+                            "casual",
+                            "pregame"
+                        ],
+                        "language": "en",
+                        "id": 69019,
+                        "placementIds": [
+                            "p1",
+                            "p3"
+                        ],
+                        "standard": {
+                            "channelId": 227363,
+                            "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                            "midroll": null
+                        },
+                        "html5": {
+                            "desktop": {
+                                "channelId": 227363,
+                                "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                                "midroll": null
+                            },
+                            "mobile": {
+                                "channelId": 227363,
+                                "preroll": "//search.spotxchange.com/vast/2.0/227363",
+                                "midroll": null
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

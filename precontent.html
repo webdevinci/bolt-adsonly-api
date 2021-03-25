@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <style>
+            #videoplayer {
+                width: 100%;
+                max-width: 640px;
+            }
+
+            #mycontent {
+                display: none;
+                background: green;
+                color: white;
+                font-weight: bold;
+            }
+
+            #my-content {
+                display: none;
+                margin: 0 auto;
+                background-color: #005aff;
+                border-radius: 8px;
+                text-align: center;
+                color: #ddd;
+                padding: 12px 0;
+            }
+
+            .playerButtons {
+                background-color: #305b9e;
+                border: #333;
+                border-radius: 8px;
+                color: #fff;
+                cursor: pointer;
+                display: inline-block;
+                margin: 8px 0 8px 6px;
+                padding: 8px 12px;
+                user-select: none;
+            }
+
+            .playerButtons:hover {
+                background-color: #1e90ff;
+                transition: background-color .4s ease;
+            }
+
+            textarea {
+                height: 300px;
+                width: 600px;
+            }
+        </style>
+        <title>
+            HP - Precontent
+        </title>
+    </head>
+
+    <body>
+        <h1>
+            Ads only player. Preroll ad amount set to 2
+        </h1>
+        <h3>
+            Buttons provide access to the API. All events listened to are logged in the textarea.
+        </h3>
+
+        <div id="my-content">
+            <h1>You successfully watched an Ad!</h1>
+        </div>
+
+        <div class="controls">
+            <button id="createPlayer" class="playerButtons">
+                Create Pre-Content Modal
+            </button>
+            <button id="getAdDuration" class="playerButtons">
+                Log Ad Duration
+            </button>
+            <button id="getCurrentTime" class="playerButtons">
+                Log Current Duration
+            </button>
+            <br>
+            <button id="playBtn" class="playerButtons">
+                Play
+            </button>
+            <button id="pauseBtn" class="playerButtons">
+                Pause
+            </button>
+            <button id="muteBtn" class="playerButtons">
+                Mute
+            </button>
+            <button id="unmuteBtn" class="playerButtons">
+                Unmute
+            </button>
+            <br>
+            <button id="removeBtn" class="playerButtons">
+                Remove
+            </button>
+        </div>
+
+        <div id="pre-content-container"></div>
+
+        <!-- data-hidden-container not required -->
+        <script src="//cdn.playwire.com/bolt/js/zeus/embed.js" type="text/javascript"
+            data-config="./precontent.json"
+            data-width="100%"
+            data-height="100%"
+            data-id="pre-content-player"
+            data-hidden-container="mycontent"
+            data-preroll-ad-amt="3"
+            data-onready="window.boltEventHandlers"></script>
+
+            <script>
+                // change config here to your account's config link
+                var config = './precontent.json';
+                var player = 'pre-content-player';
+                document.getElementById('createPlayer').addEventListener('click', function () {
+                    var container = document.getElementById('pre-content-container');
+                    var script = document.createElement('script');
+                    script.src = '//cdn.playwire.com/bolt/js/zeus/embed.js';
+                    script.type = 'text/javascript';
+                    script.setAttribute('data-config', config);
+                    script.setAttribute('data-width', '100%');
+                    script.setAttribute('data-height', '100%');
+                    script.setAttribute('data-id', player);
+                    script.setAttribute('data-hidden-container', 'my-content');
+                    script.setAttribute('data-onready', 'window.boltEventHandlers');
+                    container.appendChild(script);
+                });
+
+                document.getElementById('getAdDuration').addEventListener('click', function () {
+                    Bolt.getAdDuration(player, function (playerId, adDuration) {
+                        console.log('Ad Duration: ' + adDuration + ', Player ID' + playerId);
+                        eventLog.value += 'Ad Duration:' + adDuration + '\n';
+                    });
+                });
+
+                document.getElementById('getCurrentTime').addEventListener('click', function () {
+                    Bolt.getCurrentTime(player, function (playerId, currentTime) {
+                        console.log('Current Time: ' + currentTime + ', Player ID' + playerId);
+                        eventLog.value += 'Current Time:' + currentTime + '\n';
+                    });
+                });
+
+
+                document.getElementById('playBtn').addEventListener('click', function () {
+                    Bolt.playMedia(player);
+                    console.log('Player Playing');
+                    eventLog.value += 'Player playing\n';
+                });
+
+                document.getElementById('pauseBtn').addEventListener('click', function () {
+                    Bolt.pauseMedia(player);
+                    console.log('Player Paused');
+                    eventLog.value += 'Player Paused\n';
+                });
+
+                document.getElementById('muteBtn').addEventListener('click', function () {
+                    Bolt.muteMedia(player);
+                    console.log('Player Muted');
+                    eventLog.value += 'Player Muted\n';
+                });
+
+                document.getElementById('unmuteBtn').addEventListener('click', function () {
+                    Bolt.unmuteMedia(player);
+                    console.log('Player Unmuted');
+                    eventLog.value += 'Player Untmuted\n';
+                });
+
+                document.getElementById('removeBtn').addEventListener('click', function () {
+                    Bolt.removeVideo(player, !0);
+                    console.log('Player Removed');
+                    eventLog.value += 'Player Removed\n';
+                });
+
+                function boltEventHandlers () {
+                    console.log('Pre-Content Player loaded');
+                    var eventLog = document.getElementById('eventLog');
+
+                    Bolt.on(player, Bolt.BOLT_AD_REQUEST_START, function (...args) {
+                        eventLog.value += 'BOLT_AD_REQUEST_START called\n';
+                        console.log('Pre-Content Ad REQUEST Started', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_STARTED, function (...args) {
+                        eventLog.value += 'BOLT_AD_STARTED called\n';
+                        console.log('Pre-Content Ad Started', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_FIRST_QUARTILE, function (...args) {
+                        eventLog.value += 'BOLT_AD_FIRST_QUARTILE called\n';
+                        console.log('Pre-Content Ad First quartile', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_MIDPOINT, function (...args) {
+                        eventLog.value += 'BOLT_AD_MIDPOINT called\n';
+                        console.log('Pre-Content Ad quartile', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_THIRD_QUARTILE, function (...args) {
+                        eventLog.value += 'BOLT_AD_THIRD_QUARTILE called\n';
+                        console.log('Pre-Content Ad Third quartile', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_COMPLETE, function (...args) {
+                        eventLog.value += 'BOLT_AD_COMPLETE called\n';
+                        console.log('Pre-Content Ad complete, remove player', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_ERROR, function (...args) {
+                        eventLog.value += 'BOLT_AD_ERROR called\n';
+                        console.log('Pre-Content Ad error, remove player', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_AD_CLICKED, function (...args) {
+                        eventLog.value += 'BOLT_AD_CLICKED called\n';
+                        console.log('Pre-Content Ad Clicked', ...args);
+                    });
+
+                    Bolt.on(player, Bolt.BOLT_VOLUME_CHANGED, function (...args) {
+                        eventLog.value += 'BOLT_VOLUME_CHANGED called\n';
+                        console.log('Pre-Content Ad Clicked', ...args);
+                    });
+
+                    Bolt.on(player, 'showHiddenContainer', function (...args) {
+                        eventLog.value += 'showHiddenContainer called\n';
+                        console.log('Pre-Content Finished', ...args);
+                    });
+
+
+                }
+
+            </script>
+
+            <textarea id="eventLog" placeholder="Event log"></textarea>
+
+        </div>
+    </body>
+</html>
